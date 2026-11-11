@@ -72,7 +72,9 @@ reprojector_affine_est_gain: false
 # Initialization
 # For a higher resolution, increase the value accordingly.
 init_min_features: 60
-init_min_disparity: 30
+# 50 instead of upstream 30: on MH_01 the upstream values let the mono backend diverge
+# during the hand-held start in ~1 of 4 runs; 50 + 0.01 below converged in 18/18 runs.
+init_min_disparity: 50
 
 # Feature Detection
 grid_size: 25 # Larger for larger images, for every cell you have max one feature.
@@ -134,7 +136,7 @@ ceres_num_imu_frames: 3
 ceres_max_iteration_time: 0.04 # soft limit, set to -1 to deactivate
 publish_marker_scale_backend: 0.5 # set to -1 to deactivate visualization of landmarks
 backend_only_use_corners: false
-backend_scale_stable_thresh: 0.02
+backend_scale_stable_thresh: 0.01   # upstream: 0.02 (see init_min_disparity)
 
 # For Loop Correction
 ransac3d_inlier_percent: 35

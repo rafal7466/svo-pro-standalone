@@ -13,11 +13,11 @@ SVO Pro (UZH Robotics and Perception Group) is a fast semi-direct visual odometr
 | `launch/vio/euroc_vio_*.launch` | `config/euroc_vio_{mono,stereo}.yaml` | Front-end + Ceres VIO back-end |
 | `rpg_trajectory_evaluation` (Python) | built into `svo_euroc.exe` | ATE with posyaw / SE(3) / Sim(3) alignment |
 
-Headline result on **EuRoC MH_01_easy**: stereo VIO reaches an ATE RMSE of **0.093 m** (posyaw alignment) / **0.077 m** (SE(3)), mono VIO **0.117 m** / **0.083 m**, at **3.7 – 13 ms per frame** on a laptop CPU. Full numbers are [below](#results-on-euroc-mh_01).
+Headline result on **EuRoC MH_01_easy**: stereo VIO reaches an ATE RMSE of **0.093 m** (posyaw alignment) / **0.077 m** (SE(3)), mono VIO **0.134 m** / **0.105 m**, at **3.7 – 13 ms per frame** on a laptop CPU. Full numbers are [below](#results-on-euroc-mh_01).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/mh01_trajectory_dark.png">
-  <img alt="Top view of the EuRoC MH_01 trajectory estimated by stereo VIO, mono VIO and stereo VO, overlaid on the groundtruth, and the absolute position error of each over time: mostly below 0.15 m, with spikes up to 0.5 m for mono VIO during the hand-held initialization phase." src="docs/images/mh01_trajectory_light.png">
+  <img alt="Top view of the EuRoC MH_01 trajectory estimated by stereo VIO, mono VIO and stereo VO, overlaid on the groundtruth, and the absolute position error of each over time: mostly below 0.15 m for stereo VIO and stereo VO and below 0.25 m for mono VIO, with short peaks up to 0.36 m for mono VIO around take-off." src="docs/images/mh01_trajectory_light.png">
 </picture>
 
 ---
@@ -185,6 +185,7 @@ Run `svo_euroc.exe --help` for the complete list.
 |---|---|
 | `stamped_traj_estimate.txt` | frontend trajectory, TUM format `t tx ty tz qx qy qz qw` (body/IMU in world) |
 | `stamped_traj_backend.txt` | optimized backend trajectory (VIO only) |
+| `stamped_backend_speed_bias.txt` | backend velocity and IMU biases per frame (VIO only) |
 | `traj_estimate_euroc.csv` | the same trajectory in EuRoC CSV format |
 | `stamped_groundtruth.txt` | groundtruth in TUM format, ready for [evo](https://github.com/MichaelGrupp/evo) or `rpg_trajectory_evaluation` |
 | `stamped_traj_*_aligned_{posyaw,se3}.txt` | estimate aligned to the groundtruth |
@@ -203,7 +204,7 @@ All runs below are stored in [`results/`](results/) (trajectories, aligned traje
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/mh01_ate_dark.png">
-  <img alt="Bar charts: ATE RMSE on MH_01 for stereo VIO (posyaw 0.093, SE3 0.076, Sim3 0.069 m), mono VIO (0.117, 0.083, 0.070 m) and stereo VO (SE3 0.086, Sim3 0.085 m); mean time per frame 13.1, 9.9 and 3.7 ms." src="docs/images/mh01_ate_light.png">
+  <img alt="Bar charts: ATE RMSE on MH_01 for stereo VIO (posyaw 0.093, SE3 0.076, Sim3 0.069 m), mono VIO (0.134, 0.105, 0.087 m) and stereo VO (SE3 0.086, Sim3 0.085 m); mean time per frame 13.1, 10.9 and 3.7 ms." src="docs/images/mh01_ate_light.png">
 </picture>
 
 ### Absolute trajectory error (RMSE, m)
@@ -211,7 +212,7 @@ All runs below are stored in [`results/`](results/) (trajectories, aligned traje
 | Configuration | Config file | posyaw | SE(3) | Sim(3) (scale) | Tracking lost | Time / frame |
 |---|---|---|---|---|---|---|
 | Stereo VIO ([results](results/MH_01_stereo_vio/results.txt)) | `euroc_vio_stereo.yaml` | **0.093** | **0.077** | 0.069 (1.008) | 0× | 13.1 ms |
-| Mono VIO ([results](results/MH_01_mono_vio/results.txt)) | `euroc_vio_mono.yaml` | 0.117 | 0.083 | 0.070 (1.010) | 7× | 9.9 ms |
+| Mono VIO ([results](results/MH_01_mono_vio/results.txt)) | `euroc_vio_mono.yaml` | 0.134 | 0.105 | 0.087 (1.014) | 2× | 10.9 ms |
 | Stereo VO, no IMU ([results](results/MH_01_stereo_vo/results.txt)) | `euroc_frontend_stereo.yaml` | – | 0.086 | 0.085 (1.003) | 0× | 3.7 ms |
 
 - VIO numbers are for the backend trajectory; the frontend trajectory is within 1 mm of it.
@@ -226,8 +227,8 @@ All runs below are stored in [`results/`](results/) (trajectories, aligned traje
 
 ### Notes
 
-- **Run-to-run variation.** SVO Pro is multi-threaded (depth filter and backend run in their own threads), so results differ slightly between runs — the same happens with the original ROS version. Over repeated runs stereo VIO stayed within 0.09 – 0.14 m (posyaw) and stereo VO within 0.05 – 0.09 m (SE3).
-- **Start of MH_01.** The first ≈ 20 s of MH_01 are hand-held motion to excite the IMU. Mono VIO may re-initialize a few times there (the 7 tracking losses above) and the large error of that phase raises the RMSE of the whole sequence; `--start_frame=850` (just before take-off) skips it.
+- **Run-to-run variation.** SVO Pro is multi-threaded (depth filter and backend run in their own threads), so results differ slightly between runs — the same happens with the original ROS version. Over repeated runs on a fresh clone: stereo VIO 0.09 – 0.14 m (posyaw), stereo VO 0.05 – 0.09 m (SE3), mono VIO 0.11 – 0.19 m (posyaw, median 0.140 m over 18 runs; SE3 median 0.112 m). The mono run stored in `results/` is close to that median.
+- **Mono VIO initialization.** The first ≈ 20 s of MH_01 are hand-held motion to excite the IMU. With the upstream `vio_mono.yaml` values (`init_min_disparity: 30`, `backend_scale_stable_thresh: 0.02`) mono VIO initialized during this shaky phase and the backend diverged in 3 of 10 runs (errors of tens of metres). `config/euroc_vio_mono.yaml` therefore requires more disparity before initializing (`50`) and a stricter scale-stability check (`0.01`); with these values all 18 test runs converged. To reproduce the upstream behaviour use `--params="init_min_disparity=30,backend_scale_stable_thresh=0.02"`.
 - The figures are regenerated from `results/` with `python scripts/make_readme_figure.py` (needs numpy and matplotlib).
 
 ## Differences from the original SVO Pro
@@ -237,6 +238,7 @@ All runs below are stored in [`results/`](results/) (trajectories, aligned traje
 - The catkin dependencies `minkindr`, `fast` and `opengv` are vendored in `third_party/` (only the parts SVO needs).
 - Portability for MSVC: Boost removed (`erf_inv` replaced), `dirent.h` / `termios` replaced by `std::filesystem`, `__attribute__((aligned))` → `alignas(16)`, SSE macros defined for MSVC.
 - New runner features: start in motion with a velocity prior, temporary GPS aiding from the groundtruth, CLAHE and image scaling, deterministic thread synchronization.
+- `config/euroc_vio_mono.yaml` uses a more conservative initialization than upstream (see [Notes](#notes)); the other parameter files keep the upstream values.
 - Not included: loop closing (DBoW2) and the global map (GTSAM / iSAM2) — both optional in the original as well.
 
 ## Acknowledgements and license
