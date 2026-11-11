@@ -1,0 +1,98 @@
+================ SVO Pro standalone - summary ================
+  dataset       : dataset\MH_01_easy
+  pipeline      : stereo
+  frames        : 3682 (tracking 3682, skipped 0, tracking lost 0x)
+  time / frame  : mean 3.70 ms, median 3.28 ms (frontend + wait for depth-filter/backend threads)
+  wall time     : 21.1 s
+  output        : results\MH_01_stereo_vo
+  ------------- Absolute Trajectory Error (ATE) -------------
+  frontend  se3     RMSE   0.0861 m  mean   0.0813  median   0.0796  max   0.2319  (3638 poses)
+  frontend  sim3    RMSE   0.0851 m  mean   0.0791  median   0.0701  max   0.2439  scale 1.0030  (3638 poses)
+===============================================================
+---------------- SVO parameters ----------------
+  T_world_imuinit/qw: 1
+  T_world_imuinit/qx: 0
+  T_world_imuinit/qy: 0
+  T_world_imuinit/qz: 0
+  T_world_imuinit/tx: 0  (default)
+  T_world_imuinit/ty: 0  (default)
+  T_world_imuinit/tz: 0  (default)
+  automatic_reinitialization: false  (default)
+  backend_scale_stable_thresh: 0.02  (default)
+  calib_file: config\calib/euroc_stereo.yaml
+  depth_filter_affine_est_gain: true
+  depth_filter_affine_est_offset: true
+  depth_filter_extra_map_points: false  (default)
+  detector_threshold_primary: 10
+  detector_threshold_secondary: 200
+  detector_threshold_shitomasi: 100  (default)
+  global_map_timeout_sec: 2  (default)
+  grid_size: 35
+  img_align_est_illumination_gain: true
+  img_align_est_illumination_offset: true
+  img_align_max_level: 4
+  img_align_min_level: 2
+  img_align_prior_lambda_rot: 0.0
+  img_align_prior_lambda_trans: 0.0
+  img_align_robustification: false  (default)
+  img_align_use_distortion_jacobian: false  (default)
+  init_disparity_pivot_ratio: 0.5  (default)
+  init_method: FivePoint  (default)
+  init_min_disparity: 30
+  init_min_features: 100  (default)
+  init_min_features_factor: 2  (default)
+  init_min_inliers: 70  (default)
+  init_min_tracked: 80  (default)
+  kfselect_backend_max_time_sec: 3  (default)
+  kfselect_criterion: FORWARD
+  kfselect_min_angle: 6
+  kfselect_min_disparity: 40
+  kfselect_min_dist: 0.12  (default)
+  kfselect_min_dist_metric: 0.001
+  kfselect_min_num_frames_between_kfs: 0
+  kfselect_numkfs_lower_thresh: 90
+  kfselect_numkfs_upper_thresh: 180
+  klt_max_level: 4  (default)
+  klt_min_level: 0  (default)
+  map_scale: 5.0
+  mappoint_convergence_sigma2_thresh: 500  (default)
+  max_depth_inv: 0.1
+  max_fts: 180
+  max_map_fts: 120  (default)
+  max_n_kfs: 30
+  max_seeds_ratio: 3  (default)
+  max_unconverged_seeds_ratio: -1  (default)
+  mean_depth_inv: 0.5
+  min_depth_inv: 10.0
+  n_pyr_levels: 3
+  pipeline_is_stereo: True
+  poseoptim_prior_lambda: 0.0
+  poseoptim_thresh: 2.0
+  poseoptim_using_unit_sphere: False
+  quality_max_drop_fts: 80
+  quality_min_fts: 40
+  relocalization_max_trials: 50  (default)
+  reproj_err_thresh: 2  (default)
+  reproject_unconverged_seeds: true  (default)
+  reprojector_affine_est_gain: true
+  reprojector_affine_est_offset: true
+  reprojector_fixed_lm_grid_size: 50  (default)
+  reprojector_max_fixed_landmarks: 50  (default)
+  reprojector_max_n_global_kfs: 20  (default)
+  reprojector_max_n_kfs: 5
+  reprojector_use_kfs_from_global_map: false  (default)
+  runlc: false  (default)
+  scan_epi_unit_sphere: False
+  seed_convergence_sigma2_thresh: 200
+  set_initial_attitude_from_gravity: true  (default)
+  structure_optimization_max_pts: 20  (default)
+  trace_dir: results\MH_01_stereo_vo
+  trace_statistics: false  (default)
+  update_seeds_with_old_keyframes: True
+  use_async_reprojectors: True
+  use_ceres_backend: false
+  use_edgelets: true  (default)
+  use_global_map: false  (default)
+  use_imu: False
+  use_threaded_depthfilter: False
+------------------------------------------------

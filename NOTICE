@@ -1,0 +1,33 @@
+svo-pro-standalone
+Copyright (C) 2026 Mohammadreza (https://github.com/rafal7466)
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3 (see LICENSE).
+
+It is derived from the following works:
+
+* SVO Pro (rpg_svo_pro_open) - Robotics and Perception Group, University of Zurich
+  https://github.com/uzh-rpg/rpg_svo_pro_open
+  License: GNU GPL v3. Sources in modules/ (svo, svo_common, svo_direct,
+  svo_img_align, svo_tracker, svo_ceres_backend, svo_vio_common, vikit_*,
+  rpg_common) are taken from it, with the portability changes listed in README.md.
+
+* OKVIS - Leutenegger et al., ETH Zurich / Wellcome Trust Robotics Lab
+  https://github.com/ethz-asl/okvis
+  License: BSD 3-Clause. The Ceres VIO backend (modules/svo_ceres_backend) is
+  derived from OKVIS; the original copyright headers are kept in the sources.
+
+* OpenGV - Laurent Kneip et al.
+  https://github.com/laurentkneip/opengv
+  License: see third_party/opengv/License.txt (subset used by SVO).
+
+* minkindr - Autonomous Systems Lab, ETH Zurich
+  https://github.com/ethz-asl/minkindr
+  License: see third_party/minkindr/LICENSE.
+
+* fast / fast_neon - FAST corner detector by Edward Rosten and Tom Drummond,
+  packaged by the Robotics and Perception Group (https://github.com/uzh-rpg/fast_neon).
+
+The EuRoC MAV dataset (used for the results in results/) is by the Autonomous
+Systems Lab, ETH Zurich: M. Burri et al., "The EuRoC micro aerial vehicle
+datasets", IJRR 2016, doi:10.3929/ethz-b-000690084.

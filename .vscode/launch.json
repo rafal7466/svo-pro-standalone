@@ -1,0 +1,60 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "SVO stereo VIO - MH_01",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/Release/svo_euroc.exe",
+      "args": [
+        "--dataset=${workspaceFolder}/dataset/MH_01_easy",
+        "--config=${workspaceFolder}/config/euroc_vio_stereo.yaml",
+        "--output_dir=${workspaceFolder}/results"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "preLaunchTask": "SVO: build Release"
+    },
+    {
+      "name": "SVO mono VIO - MH_01",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/Release/svo_euroc.exe",
+      "args": [
+        "--dataset=${workspaceFolder}/dataset/MH_01_easy",
+        "--config=${workspaceFolder}/config/euroc_vio_mono.yaml",
+        "--output_dir=${workspaceFolder}/results"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "preLaunchTask": "SVO: build Release"
+    },
+    {
+      "name": "SVO stereo frontend only (no IMU) - MH_01",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/Release/svo_euroc.exe",
+      "args": [
+        "--dataset=${workspaceFolder}/dataset/MH_01_easy",
+        "--config=${workspaceFolder}/config/euroc_frontend_stereo.yaml",
+        "--output_dir=${workspaceFolder}/results"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "preLaunchTask": "SVO: build Release"
+    },
+    {
+      "name": "SVO stereo VIO - MH_01 (RelWithDebInfo, debugging)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/RelWithDebInfo/svo_euroc.exe",
+      "args": [
+        "--dataset=${workspaceFolder}/dataset/MH_01_easy",
+        "--config=${workspaceFolder}/config/euroc_vio_stereo.yaml",
+        "--output_dir=${workspaceFolder}/results"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

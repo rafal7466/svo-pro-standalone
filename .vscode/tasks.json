@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "SVO: configure (MSVC + vcpkg)",
+      "type": "shell",
+      "command": "cmake --preset windows-msvc",
+      "problemMatcher": []
+    },
+    {
+      "label": "SVO: build Release",
+      "type": "shell",
+      "command": "cmake --build build --config Release --parallel",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "SVO: run stereo VIO on MH_01",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/bin/Release/svo_euroc.exe",
+      "args": [
+        "--dataset=${workspaceFolder}/dataset/MH_01_easy",
+        "--config=${workspaceFolder}/config/euroc_vio_stereo.yaml",
+        "--output_dir=${workspaceFolder}/results"
+      ],
+      "dependsOn": "SVO: build Release",
+      "problemMatcher": []
+    },
+    {
+      "label": "SVO: run mono VIO on MH_01",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/bin/Release/svo_euroc.exe",
+      "args": [
+        "--dataset=${workspaceFolder}/dataset/MH_01_easy",
+        "--config=${workspaceFolder}/config/euroc_vio_mono.yaml",
+        "--output_dir=${workspaceFolder}/results"
+      ],
+      "dependsOn": "SVO: build Release",
+      "problemMatcher": []
+    }
+  ]
+}
