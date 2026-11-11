@@ -41,11 +41,11 @@ $exe = Join-Path $repo "build\bin\$Config\svo_euroc.exe"
 if (-not (Test-Path $exe)) { throw "$exe not found - build first with scripts\build.ps1" }
 if (-not (Test-Path $Dataset)) { throw "Dataset folder '$Dataset' not found (see the Dataset section of the README)" }
 
-$viz = if ($Viz) { "true" } else { "false" }
+$vizFlag = if ($Viz.IsPresent) { "true" } else { "false" }
 $cmdArgs = @("--dataset=$((Resolve-Path $Dataset).Path)",
           "--config=$(Join-Path $repo "config\$cfg")",
           "--output_dir=$OutputDir",
-          "--viz=$viz", "--wait_at_end=false") + $Extra
+          "--viz=$vizFlag", "--wait_at_end=false") + $Extra
 Write-Host "$exe $($cmdArgs -join ' ')"
 & $exe @cmdArgs
 if ($LASTEXITCODE -ne 0) { throw "svo_euroc.exe exited with code $LASTEXITCODE" }
